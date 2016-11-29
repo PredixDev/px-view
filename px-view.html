@@ -45,7 +45,7 @@
           type: Boolean,
           value: false
         },
-        
+
         /**
          *
          * Set to true to load this view asynchronously.
@@ -58,6 +58,20 @@
           type: Boolean,
           value: false
         },
+
+        /**
+         * Remove from dom when this view element is not active, and re-create DOM
+         * elements when this element is active.
+         *
+         * @attribute restamp
+         * @type Boolean
+         * @default false
+         */
+        restamp: {
+          type: Boolean,
+          value: false
+        },
+
         /**
          *
          * Status tracks a px-view component over it's lifecycle
@@ -181,7 +195,11 @@
         if (this.active) {
           this._element.style.display = this.display;
         } else {
-          this.set('status', 'hidden');
+          if(this.restamp) {
+            this._resetView();
+          } else {
+            this.set('status', 'hidden');
+          }
         }
       },
 
